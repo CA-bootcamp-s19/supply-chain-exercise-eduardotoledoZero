@@ -72,7 +72,7 @@ contract SupplyChain {
     _;
     uint _price = items[_sku].price;
     uint amountToRefund = msg.value - _price;
-    items[_sku].buyer.transfer(amountToRefund);
+    //items[_sku].buyer.transfer(amountToRefund);
   }
 
   /* For each of the following modifiers, use what you learned about modifiers
@@ -128,18 +128,18 @@ contract SupplyChain {
     to Sold. Be careful, this function should use 3 modifiers to check if the item is for sale,
     if the buyer paid enough, and check the value after the function is called to make sure the buyer is
     refunded any excess ether sent. Remember to call the event associated with this function!*/
-
-  function buyItem(uint sku) 
-    payable
+  function buyItem(uint sku)
     public
+    payable
     forSale(sku)
     paidEnough(items[sku].price)
     checkValue(sku)
   {
     items[sku].buyer = msg.sender;
     items[sku].state = State.Sold;
-    items[sku].seller.transfer(msg.value);
+    items[sku].seller.transfer(items[sku].price);
     emit LogSold(sku);
+
   }
 
   /* Add 2 modifiers to check if the item is sold already, and that the person calling this function
@@ -160,7 +160,7 @@ contract SupplyChain {
     shipped(sku)
     verifyCaller( items[sku].buyer)
    {
-     items[sku].state = State.Shipped;
+     items[sku].state = State.Received;
      emit LogReceived(sku);
   }
 
