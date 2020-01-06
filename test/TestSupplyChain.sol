@@ -21,7 +21,7 @@ contract TestSupplyChain {
         buyer = new Buyer();
         address(buyer).transfer(100);
         Assert.equal(address(seller).balance, 0, "Seller initial balance should be 0.");
-        Assert.equal(address(buyer).balance, 200, "Buyer initial balance should be 100 wei.");
+        Assert.equal(address(buyer).balance, 100, "Buyer initial balance should be 100 wei.");
 
     }
 
