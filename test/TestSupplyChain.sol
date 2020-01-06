@@ -13,9 +13,11 @@ contract TestSupplyChain {
     SupplyChain sc;
     Buyer buyer;
     Seller seller;
+    ThrowProxy throwproxy;
 
     function beforeAll() public{
         sc = SupplyChain(DeployedAddresses.SupplyChain());  
+        throwproxy = new ThrowProxy(address(sc)); 
         seller = new Seller();
         //buyer = (new Buyer).value(100)();
         buyer = new Buyer();
@@ -30,8 +32,10 @@ contract TestSupplyChain {
     function testForNotEnoughFunds() public {
         //Assert.fail("If test fails with this message, Assert.fail is working");
         seller.addItem(sc,"First Item", 200);
-        buyer.buyItem(sc, 0, 100);
-
+        buyer.buyItem(SupplyChain(address(throwproxy)), 0, 100);
+        bool r = throwproxy.execute.gas(200000)();
+        Assert.isFalse(r, "false because not enough funds were sent!");
+        
     }
     // test for purchasing an item that is not for Sale
 
@@ -75,4 +79,24 @@ contract Seller{
     function  () external payable{}
 
 
+}
+
+// Proxy contract for testing throws
+contract ThrowProxy {
+  address public target;
+  bytes data;
+
+  constructor(address _target)  public {
+    target = _target;
+  }
+
+  //prime the data using the fallback function.
+  function() external {
+    data = msg.data;
+  }
+
+  function execute() public returns (bool) {
+    (bool r, bytes memory b)= target.call(data);
+    return r;
+  }
 }
