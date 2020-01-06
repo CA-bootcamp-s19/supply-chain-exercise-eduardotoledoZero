@@ -28,9 +28,9 @@ contract TestSupplyChain {
     // buyItem
     // test for failure if user does not send enough funds
     function testForNotEnoughFunds() public {
-        Assert.fail("If test fails with this message, Assert.fail is working");
-        //seller.addItem(sc,"First Item", 200);
-        //buyer.buyItem(sc, 0, 100);
+        //Assert.fail("If test fails with this message, Assert.fail is working");
+        seller.addItem(sc,"First Item", 200);
+        buyer.buyItem(sc, 0, 100);
 
     }
     // test for purchasing an item that is not for Sale
