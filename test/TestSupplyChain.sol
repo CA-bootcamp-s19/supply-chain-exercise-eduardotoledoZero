@@ -14,19 +14,21 @@ contract TestSupplyChain {
     Buyer buyer;
     Seller seller;
     ThrowProxy throwproxy;
-
+    
+    constructor() public payable{}
+    
     function beforeAll() public{
         sc = SupplyChain(DeployedAddresses.SupplyChain());  
         throwproxy = new ThrowProxy(address(sc)); 
         seller = new Seller();
         //buyer = (new Buyer).value(100)();
-        buyer = new Buyer();
-        address(buyer).transfer(100);
+        //buyer = new Buyer();
+        buyer = (new Buyer).value(100)();
+        //address(buyer).transfer(100);
         Assert.equal(address(seller).balance, 0, "Seller initial balance should be 0.");
         Assert.equal(address(buyer).balance, 100, "Buyer initial balance should be 100 wei.");
 
     }
-
     // buyItem
     // test for failure if user does not send enough funds
     function testForNotEnoughFunds() public {
