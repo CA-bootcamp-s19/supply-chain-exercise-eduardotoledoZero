@@ -21,6 +21,7 @@ contract TestSupplyChain {
         sc = SupplyChain(DeployedAddresses.SupplyChain());  
         throwproxy = new ThrowProxy(address(sc)); 
         seller = new Seller();
+        buyer = new Buyer();
         address(buyer).transfer(100);
         Assert.equal(address(seller).balance, 0, "Seller initial balance should be 0.");
         Assert.equal(address(buyer).balance, 100, "Buyer initial balance should be 100 wei.");
