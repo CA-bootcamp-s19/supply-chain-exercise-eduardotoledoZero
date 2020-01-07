@@ -21,17 +21,14 @@ contract TestSupplyChain {
         sc = SupplyChain(DeployedAddresses.SupplyChain());  
         throwproxy = new ThrowProxy(address(sc)); 
         seller = new Seller();
-        //buyer = (new Buyer).value(100)();
-        //buyer = new Buyer();
-        buyer = (new Buyer).value(100)();
-        //address(buyer).transfer(100);
+        address(buyer).transfer(100);
         Assert.equal(address(seller).balance, 0, "Seller initial balance should be 0.");
         Assert.equal(address(buyer).balance, 100, "Buyer initial balance should be 100 wei.");
 
     }
     // buyItem
     // test for failure if user does not send enough funds
-    function testForNotEnoughFunds() public {
+    function  testAddItem()  public {
         //Assert.fail("If test fails with this message, Assert.fail is working");
         seller.addItem(sc,"First Item", 200);
          (string memory _name, uint _sku, uint _price, uint _state, address _seller, address _buyer) = sc.fetchItem(0);
