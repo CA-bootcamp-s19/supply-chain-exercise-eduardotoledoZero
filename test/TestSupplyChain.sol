@@ -32,11 +32,10 @@ contract TestSupplyChain {
     function testForNotEnoughFunds() public {
         //Assert.fail("If test fails with this message, Assert.fail is working");
         seller.addItem(sc,"First Item", 200);
-        buyer.buyItem(SupplyChain(address(throwproxy)), 0, 100);
+        buyer.buyItem(SupplyChain(address(throwproxy)), 0, 200);
         bool r = throwproxy.execute.gas(200000)();
         Assert.isFalse(r, "false because not enough funds were sent!");
-        
-    }
+      }
     // test for purchasing an item that is not for Sale
 
     // shipItem
